@@ -20,4 +20,14 @@ class SequenceDiagramParserTest extends FunSuite {
         }
     }
 
+    test("doesn't parse erroneous text") {
+        assert(intercept[RuntimeException] {
+            new SequenceDiagramParser(
+                """Ben -> Felix: What do you think of this?
+                  |What on earth is this line here?
+                  |Felix -> Someone Else: Um, something
+                """.stripMargin).parse()
+        }.getMessage.contains("Invalid input"))
+    }
+
 }
