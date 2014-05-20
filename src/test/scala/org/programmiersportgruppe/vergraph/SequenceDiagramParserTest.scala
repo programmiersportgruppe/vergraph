@@ -11,12 +11,12 @@ class SequenceDiagramParserTest extends FunSuite {
             Message("Felix", "Someone Else", "Um, something") ::
             Nil
         )) {
-            new SequenceDiagramParser().parse(
+            new SequenceDiagramParser(
                 """
                   |Ben -> Felix: What do you think of this?
                   |Felix -> Ben: Hmm…
                   |Felix -> Someone Else: Um, something
-                """.stripMargin)
+                """.stripMargin).parse()
         }
     }
 

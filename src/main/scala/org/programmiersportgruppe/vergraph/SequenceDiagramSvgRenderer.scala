@@ -1,18 +1,18 @@
 package org.programmiersportgruppe.vergraph
 
-import scala.xml.{NodeSeq, Elem}
-import java.io.{PrintWriter, File, ByteArrayInputStream}
+import java.io.{File, PrintWriter}
+import scala.xml.Elem
 
 object SequenceDiagramSvgRenderer {
 
     def main(args: Array[String]) {
-        val svg = new SequenceDiagramSvgRenderer().render(new SequenceDiagramParser().parse(
+        val svg = new SequenceDiagramSvgRenderer().render(new SequenceDiagramParser(
             """
               |Ben -> Felix: What do you think?
               |Felix -> Everyone: Come take a look at this!
               |Felix -> Ben: This is amazing!
             """.stripMargin
-        )).toString
+        ).parse()).toString
         println(svg)
 
         val writer = new PrintWriter(new File("sequence.svg"))
