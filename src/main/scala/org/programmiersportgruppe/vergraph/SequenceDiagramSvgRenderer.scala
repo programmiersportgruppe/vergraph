@@ -49,11 +49,11 @@ class SequenceDiagramSvgRenderer {
         val interParticipantSpace = 200.0
         val interMessageSpace = 40.0
         val participantPosition: Map[String, Vector] = diagram.participants.zipWithIndex.toMap.mapValues(i => Vector((i + 0.5) * interParticipantSpace, 15))
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" shape-rendering="geometricPrecision" stroke-width="1" text-rendering="geometricPrecision" width="100%" height="100%">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
             {diagram.participants.map { participant =>
                 val pos = participantPosition(participant)
                 <g class="participant" transform={s"${pos.translation}"}>
-                    <text style="text-anchor: middle" fill="#124191" text-anchor="middle">{participant}</text>
+                    <text text-anchor="middle">{participant}</text>
                     {renderLine(Vector(0, 5) -> Vector(0, (diagram.events.size + 0.75) * interMessageSpace))}
                 </g>
             }}
@@ -61,7 +61,7 @@ class SequenceDiagramSvgRenderer {
                 val offset = Vector(0, (index + 1) * interMessageSpace)
                 val line = Line(participantPosition(from), participantPosition(to))
                 <g class="message" transform={offset.translation}>
-                    <text dx={line.midpoint.x} dy="10" style="text-anchor: middle" fill="#124191" text-anchor="middle">{message}</text>
+                    <text dx={line.midpoint.x} dy="10" text-anchor="middle">{message}</text>
                     {renderArrow(line)}
                 </g>
             }}
@@ -75,7 +75,7 @@ class SequenceDiagramSvgRenderer {
     implicit def renderLine(line: Line): Elem =
         <line x1={line.from.x} y1={line.from.y} x2={line.to.x} y2={line.to.y} stroke="black"/>
 
-    implicit def renderArrow(line: Line, head: Elem = <polygon class="arrow-head" fill="black" points="0,0 -10,6 -10,-6"/>): Elem =
+    implicit def renderArrow(line: Line, head: Elem = <polygon class="arrow-head" points="0,0 -10,6 -10,-6"/>): Elem =
         <g class="arrow">{
             renderLine(line) ++
             head % Attribute(null, "transform", s"${line.to.translation} ${line.vector.rotation}", Null)
